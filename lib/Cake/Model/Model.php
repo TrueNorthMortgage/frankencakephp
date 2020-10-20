@@ -1750,9 +1750,19 @@ class Model extends CakeObject implements CakeEventListener {
 			$options = $validate + $defaults;
 		}
 
+		$created = (empty($data[$this->primaryKey]));
+
 		if (!$options['atomic']) {
-			return $this->_doSave($data, $options);
+			$success = $this->_doSave($data, $options);
+			if ($success !== false && ($options['callbacks'] === true)) {
+				$event = new CakeEvent('Model.afterSave', $this, array($created, $options));
+				$this->getEventManager()->dispatch($event);
+			}
+			$this->data = false;
+			return $success;
 		}
+
+		$success = false;
 
 		$db = $this->getDataSource();
 		$transactionBegun = $db->begin();
@@ -1761,17 +1771,23 @@ class Model extends CakeObject implements CakeEventListener {
 			if ($transactionBegun) {
 				if ($success) {
 					$db->commit();
+					if ($options['callbacks'] === true) {
+						$event = new CakeEvent('Model.afterSave', $this, array($created, $options));
+						$this->getEventManager()->dispatch($event);
+					}
 				} else {
 					$db->rollback();
 				}
 			}
-			return $success;
+			$this->data = false;
+
 		} catch (Exception $e) {
 			if ($transactionBegun) {
 				$db->rollback();
 			}
 			throw $e;
 		}
+		return $success;
 	}
 
 /**
@@ -1964,11 +1980,6 @@ class Model extends CakeObject implements CakeEventListener {
 			if ($created) {
 				$this->data[$this->alias][$this->primaryKey] = $this->id;
 			}
-
-			if ($options['callbacks'] === true || $options['callbacks'] === 'after') {
-				$event = new CakeEvent('Model.afterSave', $this, array($created, $options));
-				$this->getEventManager()->dispatch($event);
-			}
 		}
 
 		if (!empty($this->data)) {
@@ -1978,7 +1989,6 @@ class Model extends CakeObject implements CakeEventListener {
 		$this->_clearCache();
 		$this->validationErrors = array();
 		$this->whitelist = $_whitelist;
-		$this->data = false;
 
 		return $success;
 	}
