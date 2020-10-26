@@ -1750,7 +1750,11 @@ class Model extends CakeObject implements CakeEventListener {
 			$options = $validate + $defaults;
 		}
 
-		$created = (empty($data[$this->alias][$this->primaryKey]));
+		if (empty($data[$this->alias][$this->primaryKey]) && empty($data[$this->primaryKey])) {
+			$created = true;
+		} else {
+			$created = false;
+		}
 
 		if (!$options['atomic']) {
 			$success = $this->_doSave($data, $options);
