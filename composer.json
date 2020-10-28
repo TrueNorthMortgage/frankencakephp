@@ -1,6 +1,6 @@
 {
-	"name": "cakephp/cakephp",
-	"description": "The CakePHP framework",
+	"name": "pump/frankencakephp",
+    "description": "The FrankenCakePHP framework",
 	"type": "library",
 	"keywords": ["framework"],
 	"homepage": "https://cakephp.org",
