@@ -1750,7 +1750,7 @@ class Model extends CakeObject implements CakeEventListener {
 			$options = $validate + $defaults;
 		}
 
-		if (empty($data[$this->alias][$this->primaryKey]) && empty($data[$this->primaryKey])) {
+		if (empty($this->id) && empty($data[$this->alias][$this->primaryKey]) && empty($data[$this->primaryKey])) {
 			$created = true;
 		} else {
 			$created = false;
