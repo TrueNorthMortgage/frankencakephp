@@ -21,7 +21,8 @@ App::uses('CakeText', 'Utility');
  * String handling methods.
  *
  * @package Cake.Utility
- * @deprecated 3.0.0 Deprecated since version 2.7, use CakeText class instead.
+ * deprecated 3.0.0 Deprecated since version 2.7, use CakeText class instead.
+ * Do not use <at>deprecated above as it makes Intelephense think string scalar is deprecated
  */
 class String extends CakeText {
 }
