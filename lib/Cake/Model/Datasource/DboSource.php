@@ -567,7 +567,7 @@ class DboSource extends DataSource {
 /**
  * DataSource Query abstraction
  *
- * @return resource Result resource identifier.
+ * @return array Result rows from the query.
  */
 	public function query() {
 		$args = func_get_args();

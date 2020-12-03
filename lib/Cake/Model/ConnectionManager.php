@@ -75,7 +75,7 @@ class ConnectionManager {
  * Gets a reference to a DataSource object
  *
  * @param string $name The name of the DataSource, as defined in app/Config/database.php
- * @return DataSource Instance
+ * @return DboSource Instance
  * @throws MissingDatasourceException
  */
 	public static function getDataSource($name) {
