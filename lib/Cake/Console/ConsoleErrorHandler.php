@@ -54,8 +54,10 @@ class ConsoleErrorHandler {
  */
 	public function handleException($exception) {
 		$stderr = static::getStderr();
-		$stderr->write(__d('cake_console', "<error>Error:</error> %s\n%s",
+		$stderr->write(__d('cake_console', "<error>Error:</error> %s\n<info>File:</info> %s:%s\n<warning>Trace</warning>:\n%s",
 			$exception->getMessage(),
+			preg_replace('/^\/srv\/vhosts\/[^\/]+\//', '', $exception->getFile()),
+			$exception->getLine(),
 			$exception->getTraceAsString()
 		));
 		$code = $exception->getCode();
