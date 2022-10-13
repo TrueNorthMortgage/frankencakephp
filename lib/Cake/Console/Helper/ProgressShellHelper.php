@@ -103,7 +103,7 @@ class ProgressShellHelper extends BaseShellHelper {
  *
  * @return void
  */
-	public function draw() {
+	public function draw($logged_percentage = 0) {
 		$numberLen = strlen(' 100%');
 		$complete = round($this->_progress / $this->_total, 2);
 		$barLen = ($this->_width - $numberLen) * ($this->_progress / $this->_total);
@@ -115,8 +115,11 @@ class ProgressShellHelper extends BaseShellHelper {
 		if ($pad > 0) {
 			$bar .= str_repeat(' ', $pad);
 		}
-		$percent = ($complete * 100) . '%';
-		$bar .= str_pad($percent, $numberLen, ' ', STR_PAD_LEFT);
-		$this->_consoleOutput->overwrite($bar, 0);
+		$percent = ($complete * 100);
+		$bar .= str_pad($percent . '%', $numberLen, ' ', STR_PAD_LEFT);
+		if ($percent % 10 === 0 && $percent !== $logged_percentage) {
+			CakeLog::write('debug', $bar);
+		}
+		return $percent;
 	}
 }
