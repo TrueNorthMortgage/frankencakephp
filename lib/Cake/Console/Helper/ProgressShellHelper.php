@@ -115,9 +115,6 @@ class ProgressShellHelper extends BaseShellHelper {
 		if ($pad > 0) {
 			$bar .= str_repeat(' ', $pad);
 		}
-		$percent = ($complete * 100) . '%';
-		$bar .= str_pad($percent, $numberLen, ' ', STR_PAD_LEFT);
-		$this->_consoleOutput->overwrite($bar, 0);
 		$percent = ($complete * 100);
 		$bar .= str_pad($percent . '%', $numberLen, ' ', STR_PAD_LEFT);
 		if ($percent % 10 === 0 && $percent !== $logged_percentage) {
